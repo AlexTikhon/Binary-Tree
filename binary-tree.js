@@ -11,15 +11,16 @@ class BinaryTree {
 	}
 
 	insert(data) {
+		if ( !this.isNumeric(data) ) return;
+
 		if (this.isEmpty()){
 			this.root = new Node(data);
+			this.elemsCounter++;
 			return;
 		}
 
 		if ( this.contains(data) ) return;
 
-		if ( !this.isNumeric(data) ) return;
-		
 		var currNode = this.root;
 
 		while (currNode) {
