@@ -3,6 +3,11 @@
 class BinaryTree {
 	constructor() {
 		this.root = null;
+		this.elemsCounter = 0;
+	}
+
+	isNumeric(data) {
+		return !isNaN(parseFloat(data)) && isFinite(data);
 	}
 
 	insert(data) {
@@ -11,6 +16,10 @@ class BinaryTree {
 			return;
 		}
 
+		if ( this.contains(data) ) return;
+
+		if ( !this.isNumeric(data) ) return;
+		
 		var currNode = this.root;
 
 		while (currNode) {
@@ -32,15 +41,16 @@ class BinaryTree {
 					currNode = currNode.right;
 				}
 			}
-
-			if (data == currNode.data) break;
 		}
+		this.elemsCounter++;
 	}
 
 	contains(data) {
-		if (this.isEmpty()) return false;
+		var result = false;
 
-		var result = false, currNode = this.root;
+		if (this.isEmpty() && !this.isNumeric(data) ) return result;
+
+		var currNode = this.root;
 
 		while (!result && currNode) {
 
@@ -48,7 +58,7 @@ class BinaryTree {
 				currNode = currNode.left;
 			} else if (data > currNode.data) {
 				currNode = currNode.right;
-			} else if (data == currNode.data) {
+			} else {
 				result = true;
 			}
 
@@ -57,7 +67,7 @@ class BinaryTree {
 	}
 
 	remove(data) {
-		if ( this.isEmpty() || !this.contains(data) ) return;
+		if ( this.isEmpty() || (!this.contains(data)) ) return;
 
 		var currNode = this.root;
 		var pointer = null;
@@ -99,10 +109,11 @@ class BinaryTree {
 				}
 			}
 		}
+		this.elemsCounter--;
 	}
 
 	size() {
-
+		return this.elemsCounter;
 	}
 
 	isEmpty() {
