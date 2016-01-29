@@ -57,7 +57,48 @@ class BinaryTree {
 	}
 
 	remove(data) {
+		if ( this.isEmpty() || !this.contains(data) ) return;
 
+		var currNode = this.root;
+		var pointer = null;
+
+		while (currNode) {
+			if (currNode.data > data) {
+				pointer = currNode;
+				currNode = currNode.left;
+			} else if (currNode.data < data) {
+				pointer = currNode;
+				currNode = currNode.right;
+			} else {
+				if (currNode.left != null && currNode.right != null) {
+					if (pointer.left == currNode)
+						pointer.left = currNode.left;
+					else {
+						pointer.right = currNode.right;
+					}
+					break;
+				}
+				if (currNode.right == null && currNode.left == null) {
+					if (!pointer) {
+						this.root = null;
+					} else {
+						if (pointer.left == currNode)
+							pointer.left = null;
+						else
+							pointer.right = null;
+					}
+					break;
+				}
+				if (currNode.right == null && currNode.left != null ) {
+					pointer.left = currNode.left;
+					break;
+				}
+				if (currNode.left == null && currNode.right != null) {
+					pointer.right = currNode.right;
+					break;
+				}
+			}
+		}
 	}
 
 	size() {
