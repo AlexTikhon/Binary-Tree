@@ -38,7 +38,22 @@ class BinaryTree {
 	}
 
 	contains(data) {
+		if (this.isEmpty()) return false;
 
+		var result = false, currNode = this.root;
+
+		while (!result && currNode) {
+
+			if (data < currNode.data) {
+				currNode = currNode.left;
+			} else if (data > currNode.data) {
+				currNode = currNode.right;
+			} else if (data == currNode.data) {
+				result = true;
+			}
+
+		}
+		return result;
 	}
 
 	remove(data) {
