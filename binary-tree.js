@@ -3,7 +3,6 @@
 class BinaryTree {
 	constructor() {
 		this.root = null;
-		this.elemsCounter = 0;
 	}
 
 	isNumeric(data) {
@@ -15,7 +14,6 @@ class BinaryTree {
 
 		if (this.isEmpty()){
 			this.root = new Node(data);
-			this.elemsCounter++;
 			return;
 		}
 
@@ -43,7 +41,6 @@ class BinaryTree {
 				}
 			}
 		}
-		this.elemsCounter++;
 	}
 
 	contains(data) {
@@ -70,7 +67,6 @@ class BinaryTree {
 	remove(data) {
 		if (this.isEmpty() || !this.contains(data)) return;
 		this.root = this.removeHelper(data, this.root);
-		this.elemsCounter--;
 	}
 
 	removeHelper(data, node) {
@@ -79,11 +75,15 @@ class BinaryTree {
 				node.left = this.removeHelper(data, node.left);
 			} else if (data > node.data) {
 				node.right = this.removeHelper(data, node.right);
-			} else if (node.left && node.right) {
+			} else if (node.left !== null && node.right !== null) {
 				node.data = this.findMinData(node.right);
 				node.right = this.removeHelper(node.data, node.right);
 			} else {
-				node = node.left || node.right;
+				if (node.left !== null) {
+					node = node.left;
+				} else {
+					node= node.right;
+				}
 			}
 		}
 		return node;
@@ -100,7 +100,24 @@ class BinaryTree {
 	}
 
 	size() {
-		return this.elemsCounter;
+		var elemsCounter = 0;
+		this.treeTraversal(function(node){elemsCounter++;});
+		return elemsCounter;
+	}
+
+	treeTraversal(process){
+		function inOrder(node){
+			if (node){
+				if (node.left !== null){
+					inOrder(node.left);
+				}
+					process.call(this, node);
+				if (node.right !== null){
+					inOrder(node.right);
+				}
+			}
+		}
+		inOrder(this.root);
 	}
 
 	isEmpty() {

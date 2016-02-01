@@ -135,7 +135,7 @@ describe('BinaryTree', () => {
 		});
 
 		it('does nothing if passed data not found', () => {
-			sinon.spy(bt, 'contains');
+			 sinon.spy(bt, 'contains');
 
 			bt.remove(9);
 			bt.should.deep.equal(btCopy);
